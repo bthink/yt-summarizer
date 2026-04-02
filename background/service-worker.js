@@ -41,8 +41,15 @@ async function handleSummarize(transcript, videoId) {
   if (response.status === 429) throw new Error('RATE_LIMITED');
   if (!response.ok) throw new Error('API_ERROR');
 
-  const data = await response.json();
-  const summary = data.choices[0].message.content;
+  let data;
+  try {
+    data = await response.json();
+  } catch {
+    throw new Error('API_ERROR');
+  }
+
+  const summary = data?.choices?.[0]?.message?.content;
+  if (!summary) throw new Error('API_ERROR');
 
   await chrome.storage.session.set({ [`summary_${videoId}`]: summary });
 
