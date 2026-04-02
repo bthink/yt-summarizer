@@ -13,7 +13,7 @@ window.__ytSummarizerGetTranscript = async function () {
     return Array.from(segments)
       .map((seg) => {
         const el = seg.querySelector('.segment-text');
-        return el ? el.textContent.trim() : '';
+        return el ? (el.textContent ?? '').trim() : '';
       })
       .filter(Boolean)
       .join(' ');
@@ -59,7 +59,7 @@ window.__ytSummarizerGetTranscript = async function () {
     // Method 3: any button with "transcript" or "transkrypt" text
     for (const btn of document.querySelectorAll('button, [role="button"]')) {
       const text = (btn.textContent || '').toLowerCase().trim();
-      if (text === 'show transcript' || text === 'transkrypt' || text === 'transcript') {
+      if (text.includes('transcript') || text.includes('transkrypt')) {
         return btn;
       }
     }
