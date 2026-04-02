@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>YT Summarizer - Ustawienia</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <h1>Ustawienia</h1>
+  <main>
+    <label for="api-key">Klucz API OpenAI</label>
+    <div class="input-wrapper">
+      <input
+        type="password"
+        id="api-key"
+        placeholder="sk-..."
+        autocomplete="off"
+        spellcheck="false"
+      >
+      <button id="btn-toggle" type="button" aria-label="Pokaż lub ukryj klucz">👁️</button>
+    </div>
+    <button id="btn-save" type="button">Zapisz</button>
+    <p id="status" class="status hidden" aria-live="polite"></p>
+  </main>
+  <script type="module" src="options.js"></script>
+</body>
+</html>
