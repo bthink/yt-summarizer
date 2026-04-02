@@ -71,14 +71,20 @@ async function summarize(tab, videoId) {
     return;
   }
 
-  const response = await chrome.runtime.sendMessage({
-    type: 'SUMMARIZE',
-    transcript,
-    videoId,
-  });
+  let response;
+  try {
+    response = await chrome.runtime.sendMessage({
+      type: 'SUMMARIZE',
+      transcript,
+      videoId,
+    });
+  } catch {
+    showError('NETWORK_ERROR');
+    return;
+  }
 
-  if (!response.ok) {
-    showError(response.errorCode);
+  if (!response?.ok) {
+    showError(response?.errorCode ?? 'API_ERROR');
     return;
   }
 
@@ -116,12 +122,16 @@ async function init() {
 
   document.getElementById('btn-copy').addEventListener('click', async () => {
     const summary = document.getElementById('summary-text').textContent;
-    await navigator.clipboard.writeText(formatCopyText(summary, tab.url));
-    const btn = document.getElementById('btn-copy');
-    btn.textContent = '✓ Skopiowano';
-    setTimeout(() => {
-      btn.textContent = '📋 Kopiuj';
-    }, 2000);
+    try {
+      await navigator.clipboard.writeText(formatCopyText(summary, tab.url));
+      const btn = document.getElementById('btn-copy');
+      btn.textContent = '✓ Skopiowano';
+      setTimeout(() => {
+        btn.textContent = '📋 Kopiuj';
+      }, 2000);
+    } catch {
+      // Clipboard permission denied - fail silently, button label unchanged
+    }
   });
 
   document.getElementById('btn-retry').addEventListener('click', () => {

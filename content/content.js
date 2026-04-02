@@ -56,10 +56,10 @@ window.__ytSummarizerGetTranscript = async function () {
       }
     }
 
-    // Method 3: any button with "transcript" or "transkrypt" text
+    // Method 3: any button with "transcript" or "transkrypt" text (length-bounded to avoid false matches)
     for (const btn of document.querySelectorAll('button, [role="button"]')) {
       const text = (btn.textContent || '').toLowerCase().trim();
-      if (text.includes('transcript') || text.includes('transkrypt')) {
+      if ((text.includes('transcript') || text.includes('transkrypt')) && text.length < 50) {
         return btn;
       }
     }
