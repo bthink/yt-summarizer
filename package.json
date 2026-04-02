@@ -1,0 +1,14 @@
+{
+  "name": "yt-summarizer",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "create-icons": "node scripts/create-icons.mjs"
+  },
+  "devDependencies": {
+    "vitest": "^2.0.0",
+    "sharp": "^0.33.0"
+  }
+}
