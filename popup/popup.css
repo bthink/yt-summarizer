@@ -1,0 +1,164 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  width: 380px;
+  min-height: 120px;
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #1a1a1a;
+  background: #fff;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+h1 {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+#btn-options {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 4px 6px;
+  border-radius: 4px;
+  line-height: 1;
+}
+
+#btn-options:hover {
+  background: #f0f0f0;
+}
+
+main {
+  padding: 16px;
+}
+
+.view {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* idle */
+#btn-summarize {
+  width: 100%;
+  padding: 10px 16px;
+  background: #cc0000;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+#btn-summarize:hover {
+  background: #aa0000;
+}
+
+/* loading */
+#view-loading {
+  align-items: center;
+  padding: 20px 0;
+}
+
+#view-loading p {
+  color: #666;
+}
+
+.spinner {
+  width: 28px;
+  height: 28px;
+  border: 3px solid #e5e5e5;
+  border-top-color: #cc0000;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* done */
+#summary-text {
+  white-space: pre-wrap;
+  line-height: 1.6;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+#video-link {
+  font-size: 12px;
+  color: #666;
+  word-break: break-all;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.actions button {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.actions button:hover {
+  background: #f5f5f5;
+}
+
+/* error */
+#view-error {
+  gap: 10px;
+}
+
+.error-text {
+  color: #cc0000;
+  font-size: 13px;
+}
+
+#btn-retry {
+  padding: 7px 14px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 13px;
+  align-self: flex-start;
+}
+
+#btn-retry:hover {
+  background: #f5f5f5;
+}
+
+/* wrong-page */
+#view-wrong-page {
+  align-items: center;
+  padding: 20px 0;
+}
+
+#view-wrong-page p {
+  color: #666;
+  text-align: center;
+}

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>YT Summarizer</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <h1>YT Summarizer</h1>
+    <button id="btn-options" type="button" aria-label="Ustawienia">⚙️</button>
+  </header>
+
+  <main>
+    <!-- wrong-page -->
+    <div id="view-wrong-page" class="view hidden">
+      <p>Otwórz film na YouTube, żeby użyć wtyczki</p>
+    </div>
+
+    <!-- idle -->
+    <div id="view-idle" class="view hidden">
+      <button id="btn-summarize" type="button">Podsumuj ten odcinek</button>
+    </div>
+
+    <!-- loading -->
+    <div id="view-loading" class="view hidden">
+      <div class="spinner" role="status" aria-label="Generowanie podsumowania"></div>
+      <p>Generowanie podsumowania...</p>
+    </div>
+
+    <!-- done -->
+    <div id="view-done" class="view hidden">
+      <div id="summary-text"></div>
+      <p id="video-link"></p>
+      <div class="actions">
+        <button id="btn-copy" type="button">📋 Kopiuj</button>
+        <button id="btn-refresh" type="button">🔄 Odśwież</button>
+      </div>
+    </div>
+
+    <!-- error -->
+    <div id="view-error" class="view hidden">
+      <p id="error-message" class="error-text" role="alert"></p>
+      <button id="btn-retry" type="button">Spróbuj ponownie</button>
+    </div>
+  </main>
+
+  <script type="module" src="popup.js"></script>
+</body>
+</html>
