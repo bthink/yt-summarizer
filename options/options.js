@@ -44,3 +44,4 @@ btnSave.addEventListener('click', async () => {
 });
 
 loadKey().catch(console.error);
+updateToggleState();
