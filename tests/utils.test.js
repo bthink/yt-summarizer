@@ -38,7 +38,7 @@ describe('getErrorMessage', () => {
   });
 
   it('returns Polish message for NO_TRANSCRIPT', () => {
-    expect(getErrorMessage('NO_TRANSCRIPT')).toContain('napisy');
+    expect(getErrorMessage('NO_TRANSCRIPT')).toContain('napisów');
   });
 
   it('returns Polish message for INVALID_API_KEY', () => {

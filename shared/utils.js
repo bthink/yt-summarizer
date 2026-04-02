@@ -24,7 +24,7 @@ export function extractVideoId(url) {
 export function getErrorMessage(errorCode) {
   const messages = {
     NO_API_KEY: 'Najpierw ustaw klucz API OpenAI w ustawieniach (⚙️)',
-    NO_TRANSCRIPT: 'Ten film nie ma dostępnych napisy',
+    NO_TRANSCRIPT: 'Ten film nie ma dostępnych napisów',
     INVALID_API_KEY: 'Nieprawidłowy klucz API OpenAI',
     RATE_LIMITED: 'Przekroczono limit zapytań. Spróbuj za chwilę',
     NETWORK_ERROR: 'Błąd połączenia. Sprawdź internet',
