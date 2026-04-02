@@ -1,9 +1,9 @@
 // options/options.js
 
 const input = /** @type {HTMLInputElement} */ (document.getElementById('api-key'));
-const btnSave = document.getElementById('btn-save');
-const btnToggle = document.getElementById('btn-toggle');
-const statusEl = document.getElementById('status');
+const btnSave = /** @type {HTMLButtonElement} */ (document.getElementById('btn-save'));
+const btnToggle = /** @type {HTMLButtonElement} */ (document.getElementById('btn-toggle'));
+const statusEl = /** @type {HTMLParagraphElement} */ (document.getElementById('status'));
 
 /** @param {string} message @param {'success'|'error'} type */
 function showStatus(message, type) {
@@ -21,8 +21,16 @@ async function loadKey() {
   }
 }
 
+function updateToggleState() {
+  const isHidden = input.type === 'password';
+  btnToggle.textContent = isHidden ? '👁️' : '👁️‍🗨️';
+  btnToggle.setAttribute('aria-label', isHidden ? 'Pokaż klucz' : 'Ukryj klucz');
+}
+
 btnToggle.addEventListener('click', () => {
   input.type = input.type === 'password' ? 'text' : 'password';
+  updateToggleState();
+  input.focus();
 });
 
 btnSave.addEventListener('click', async () => {
