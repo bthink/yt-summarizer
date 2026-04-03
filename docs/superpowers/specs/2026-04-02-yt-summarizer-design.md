@@ -7,7 +7,7 @@
 
 ## Overview
 
-Chrome extension (Manifest V3) that summarizes YouTube videos using OpenAI GPT-4o mini. The user clicks the extension popup on any YouTube video page, the extension fetches the transcript from the YouTube DOM, sends it to OpenAI, and displays a Polish-language summary with a copy button.
+Chrome extension (Manifest V3) that summarizes YouTube videos using OpenAI GPT-4o mini. The user clicks the extension popup on any YouTube video page, the extension fetches the transcript from the YouTube DOM, sends it to OpenAI, and displays a summary with a copy button. Output language (Polish or English) is configurable in settings.
 
 ---
 
@@ -98,6 +98,7 @@ No external UI frameworks - plain HTML/CSS/JS.
 
 Accessible via ⚙️ icon in popup header. Contains:
 - OpenAI API key input (masked, with show/hide toggle)
+- Output language selector: Polski / English (default: Polski)
 - Save button
 - Status indicator (saved / error)
 
@@ -106,12 +107,13 @@ Accessible via ⚙️ icon in popup header. Contains:
 ## OpenAI Integration
 
 - **Model:** `gpt-4o-mini`
-- **Language:** Always respond in Polish regardless of video language
+- **Language:** Configurable - Polish or English (stored as `language: 'pl' | 'en'` in `chrome.storage.local`, default `'pl'`)
 - **Prompt structure:**
-  - System: instruct to summarize in Polish, output format = short paragraph + bullet points
-  - User: transcript text
+  - System: instruct to summarize in the selected language, output format = short paragraph + bullet points
+  - User: transcript text (prompt wording also matches selected language)
 - **Summary format:** 2-4 sentence introduction paragraph + 4-8 bullet points with key takeaways
 - **API key storage:** `chrome.storage.local` - never passed to content script, only used in service worker
+- **Cache key:** `summary_${videoId}_${language}` - language is included to prevent stale cross-language cache hits
 
 ---
 
@@ -150,7 +152,6 @@ Content script (`content.js`) reads the transcript from YouTube's DOM:
 
 ## Out of Scope
 
-- Multiple language output options (always Polish)
 - Summary history / persistence beyond session
 - Support for YouTube Shorts
 - Video chapters awareness

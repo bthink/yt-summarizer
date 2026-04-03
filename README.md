@@ -1,11 +1,11 @@
 # YT Summarizer
 
-A Chrome extension that summarizes YouTube videos in Polish using OpenAI's `gpt-4o-mini` model. Open a YouTube video, click the extension icon, and get a concise Polish summary in seconds.
+A Chrome extension that summarizes YouTube videos using OpenAI's `gpt-4o-mini` model. Open a YouTube video, click the extension icon, and get a concise summary in seconds.
 
 ## Features
 
 - Summarizes any YouTube video that has subtitles/captions available
-- Output always in Polish, regardless of the video's original language
+- Output language selectable: Polish or English (configured in settings)
 - Summary format: 2-4 intro sentences + 4-8 bullet points with key information
 - One-click copy of the summary to clipboard
 - Results cached per session (no repeated API calls for the same video)
@@ -30,7 +30,9 @@ After installing the extension:
 
 1. Click the extension icon in the Chrome toolbar
 2. Click the **Settings** gear icon (or right-click the extension icon → *Options*)
-3. Paste your OpenAI API key and click **Save**
+3. Paste your OpenAI API key
+4. Select the output language (Polski / English)
+5. Click **Save**
 
 The key is stored locally in `chrome.storage.local` and never leaves your browser except in requests to `api.openai.com`.
 
