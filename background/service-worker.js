@@ -16,7 +16,7 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
  * @returns {Promise<string>}
  */
 async function handleSummarize(transcript, videoId) {
-  const { apiKey } = await chrome.storage.local.get('apiKey');
+  const { apiKey, language = 'pl' } = await chrome.storage.local.get(['apiKey', 'language']);
   if (!apiKey) throw new Error('NO_API_KEY');
 
   let response;
@@ -29,7 +29,7 @@ async function handleSummarize(transcript, videoId) {
       },
       body: JSON.stringify({
         model: 'gpt-4o-mini',
-        messages: buildMessages(transcript),
+        messages: buildMessages(transcript, language),
         max_tokens: 1000,
       }),
     });
@@ -51,7 +51,7 @@ async function handleSummarize(transcript, videoId) {
   const summary = data?.choices?.[0]?.message?.content;
   if (!summary) throw new Error('API_ERROR');
 
-  await chrome.storage.session.set({ [`summary_${videoId}`]: summary });
+  await chrome.storage.session.set({ [`summary_${videoId}_${language}`]: summary });
 
   return summary;
 }

@@ -4,6 +4,7 @@ const input = /** @type {HTMLInputElement} */ (document.getElementById('api-key'
 const btnSave = /** @type {HTMLButtonElement} */ (document.getElementById('btn-save'));
 const btnToggle = /** @type {HTMLButtonElement} */ (document.getElementById('btn-toggle'));
 const statusEl = /** @type {HTMLParagraphElement} */ (document.getElementById('status'));
+const languageSelect = /** @type {HTMLSelectElement} */ (document.getElementById('language'));
 
 /** @param {string} message @param {'success'|'error'} type */
 function showStatus(message, type) {
@@ -14,11 +15,12 @@ function showStatus(message, type) {
   }, 3000);
 }
 
-async function loadKey() {
-  const { apiKey } = await chrome.storage.local.get('apiKey');
+async function loadSettings() {
+  const { apiKey, language = 'pl' } = await chrome.storage.local.get(['apiKey', 'language']);
   if (apiKey) {
     input.value = apiKey;
   }
+  languageSelect.value = language;
 }
 
 function updateToggleState() {
@@ -39,9 +41,9 @@ btnSave.addEventListener('click', async () => {
     showStatus('Wpisz klucz API', 'error');
     return;
   }
-  await chrome.storage.local.set({ apiKey: key });
+  await chrome.storage.local.set({ apiKey: key, language: languageSelect.value });
   showStatus('Zapisano', 'success');
 });
 
-loadKey().catch(console.error);
+loadSettings().catch(console.error);
 updateToggleState();

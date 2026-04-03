@@ -82,11 +82,24 @@ describe('buildMessages', () => {
     expect(buildMessages('my transcript')[1].content).toContain('my transcript');
   });
 
-  it('system prompt instructs Polish language response', () => {
+  it('system prompt instructs Polish language response by default', () => {
     expect(buildMessages('x')[0].content.toLowerCase()).toContain('polsk');
   });
 
   it('system prompt mentions bullet points format', () => {
     expect(buildMessages('x')[0].content).toContain('•');
+  });
+
+  it('system prompt instructs English language response when language is en', () => {
+    expect(buildMessages('x', 'en')[0].content.toLowerCase()).toContain('english');
+  });
+
+  it('user message is in English when language is en', () => {
+    expect(buildMessages('x', 'en')[1].content.toLowerCase()).toContain('summarize');
+  });
+
+  it('falls back to Polish for unknown language', () => {
+    // @ts-expect-error intentional invalid value
+    expect(buildMessages('x', 'de')[0].content.toLowerCase()).toContain('polsk');
   });
 });

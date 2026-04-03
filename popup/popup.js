@@ -54,14 +54,16 @@ async function fetchTranscript(tabId) {
 /**
  * @param {chrome.tabs.Tab} tab
  * @param {string} videoId
+ * @param {string} language
  */
-async function summarize(tab, videoId) {
+async function summarize(tab, videoId, language) {
   showView('loading');
 
   // Check for cached summary first
-  const cached = await chrome.storage.session.get(`summary_${videoId}`);
-  if (cached[`summary_${videoId}`]) {
-    renderSummary(cached[`summary_${videoId}`], tab.url);
+  const cacheKey = `summary_${videoId}_${language}`;
+  const cached = await chrome.storage.session.get(cacheKey);
+  if (cached[cacheKey]) {
+    renderSummary(cached[cacheKey], tab.url);
     return;
   }
 
@@ -104,6 +106,7 @@ function renderSummary(summary, videoUrl) {
 async function init() {
   const tab = await getCurrentTab();
   const videoId = extractVideoId(tab?.url ?? '');
+  const { language = 'pl' } = await chrome.storage.local.get('language');
 
   // Wire all buttons once - views toggle, listeners stay
   document.getElementById('btn-options').addEventListener('click', () => {
@@ -111,13 +114,13 @@ async function init() {
   });
 
   document.getElementById('btn-summarize').addEventListener('click', () => {
-    if (videoId) summarize(tab, videoId);
+    if (videoId) summarize(tab, videoId, language);
   });
 
   document.getElementById('btn-refresh').addEventListener('click', async () => {
     if (!videoId) return;
-    await chrome.storage.session.remove(`summary_${videoId}`);
-    summarize(tab, videoId);
+    await chrome.storage.session.remove(`summary_${videoId}_${language}`);
+    summarize(tab, videoId, language);
   });
 
   document.getElementById('btn-copy').addEventListener('click', async () => {
@@ -135,7 +138,7 @@ async function init() {
   });
 
   document.getElementById('btn-retry').addEventListener('click', () => {
-    if (videoId) summarize(tab, videoId);
+    if (videoId) summarize(tab, videoId, language);
   });
 
   if (!videoId) {
@@ -144,9 +147,10 @@ async function init() {
   }
 
   // Show cached summary immediately if available
-  const cached = await chrome.storage.session.get(`summary_${videoId}`);
-  if (cached[`summary_${videoId}`]) {
-    renderSummary(cached[`summary_${videoId}`], tab.url);
+  const cacheKey = `summary_${videoId}_${language}`;
+  const cached = await chrome.storage.session.get(cacheKey);
+  if (cached[cacheKey]) {
+    renderSummary(cached[cacheKey], tab.url);
     return;
   }
 
