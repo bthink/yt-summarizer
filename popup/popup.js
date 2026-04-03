@@ -61,7 +61,7 @@ async function summarize(tab, videoId, language) {
 
   // Check for cached summary first
   const cacheKey = `summary_${videoId}_${language}`;
-  const cached = await chrome.storage.session.get(cacheKey);
+  const cached = await chrome.storage.local.get(cacheKey);
   if (cached[cacheKey]) {
     renderSummary(cached[cacheKey], tab.url);
     return;
@@ -119,7 +119,7 @@ async function init() {
 
   document.getElementById('btn-refresh').addEventListener('click', async () => {
     if (!videoId) return;
-    await chrome.storage.session.remove(`summary_${videoId}_${language}`);
+    await chrome.storage.local.remove(`summary_${videoId}_${language}`);
     summarize(tab, videoId, language);
   });
 
@@ -148,7 +148,7 @@ async function init() {
 
   // Show cached summary immediately if available
   const cacheKey = `summary_${videoId}_${language}`;
-  const cached = await chrome.storage.session.get(cacheKey);
+  const cached = await chrome.storage.local.get(cacheKey);
   if (cached[cacheKey]) {
     renderSummary(cached[cacheKey], tab.url);
     return;

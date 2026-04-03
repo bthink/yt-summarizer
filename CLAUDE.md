@@ -18,14 +18,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `manifest.json` - MV3 manifest; service worker declared with `"type": "module"`
 - `shared/utils.js` - Pure functions: `extractVideoId`, `getErrorMessage`, `formatCopyText`, `buildMessages`
 - `content/content.js` - Classic script injected into YouTube tab via `chrome.scripting.executeScript`; sets `window.__ytSummarizerGetTranscript`
-- `background/service-worker.js` - ES module; receives `SUMMARIZE` message, calls OpenAI, caches result in `chrome.storage.session`
+- `background/service-worker.js` - ES module; receives `SUMMARIZE` message, calls OpenAI, caches result in `chrome.storage.local`
 - `popup/popup.js` - ES module; state machine (wrong-page / idle / loading / done / error), drives UI
 - `options/options.js` - ES module; API key save/load with show/hide toggle
 
 ## Key conventions
 
 - API key stored only in `chrome.storage.local` - never passed to content script
-- Summary cached in `chrome.storage.session` keyed as `summary_${videoId}`
+- Summary cached in `chrome.storage.local` keyed as `summary_${videoId}_${language}` - persists across popup opens and browser restarts
 - `popup.js` and `service-worker.js` import from `shared/utils.js`
 - `content.js` is self-contained (no imports - injected as classic script)
 - All UI text is Polish
