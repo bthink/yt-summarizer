@@ -51,7 +51,7 @@ async function handleSummarize(transcript, videoId) {
   const summary = data?.choices?.[0]?.message?.content;
   if (!summary) throw new Error('API_ERROR');
 
-  await chrome.storage.local.set({ [`summary_${videoId}_${language}`]: summary });
+  await chrome.storage.session.set({ [`summary_${videoId}_${language}`]: summary });
 
   return summary;
 }

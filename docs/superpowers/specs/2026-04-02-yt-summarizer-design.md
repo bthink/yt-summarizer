@@ -15,7 +15,7 @@ Chrome extension (Manifest V3) that summarizes YouTube videos using OpenAI GPT-4
 
 ### Approach: Manifest V3 with Service Worker
 
-The popup delegates the OpenAI API call to a background service worker. This means the popup can be closed while generation is in progress - the result is stored in `chrome.storage.local` and displayed when the popup is reopened.
+The popup delegates the OpenAI API call to a background service worker. This means the popup can be closed while generation is in progress - the result is stored in `chrome.storage.session` and displayed when the popup is reopened.
 
 ### File Structure
 
@@ -39,7 +39,7 @@ ytSummarizer/
 
 ### Permissions
 
-- `storage` - for API key and cached summary (`chrome.storage.local`)
+- `storage` - for API key (`chrome.storage.local`) and cached summary (`chrome.storage.session`)
 - `activeTab` - to read current tab URL
 - `scripting` - to inject content script on demand
 
@@ -50,7 +50,7 @@ ytSummarizer/
 3. Content script parses YouTube DOM and returns plain transcript text
 4. Popup sends `SUMMARIZE` message to service worker with `{ transcript, videoUrl }`
 5. Service worker reads API key from `chrome.storage.local`, calls OpenAI API
-6. Service worker stores result in `chrome.storage.local` keyed by `summary_${videoId}_${language}`
+6. Service worker stores result in `chrome.storage.session` keyed by `videoId`
 7. Popup reads result and renders it
 
 ---
@@ -152,7 +152,7 @@ Content script (`content.js`) reads the transcript from YouTube's DOM:
 
 ## Out of Scope
 
-- Summary history / bulk management of persisted summaries
+- Summary history / persistence beyond session
 - Support for YouTube Shorts
 - Video chapters awareness
 - Summary length settings
